@@ -1,0 +1,40 @@
+{% extends "output.html" %}
+{% block content %}
+<div class="admin-container">
+  <a href="{{ url_for('main_routes.index') }}" class="home-link">На главную</a>
+  <h1>Мои заказы</h1>
+  <div class="admin-section">
+    <table id="order-list">
+      <thead>
+        <tr>
+          <th>Номер заказа</th>
+          <th>Дата создания</th>
+          <th>Статус</th>
+          <th>Общая сумма</th>
+          <th>Состав заказа</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.created_at }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.total }} ₽</td>
+          <td>
+            <ul>
+              {% for item in order['items'] %}
+              <li>{{ item.name }} - {{ item.price }}₽ x {{ item.quantity }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if not orders %}
+      <p>У вас пока нет заказов.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
